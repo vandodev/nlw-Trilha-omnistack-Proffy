@@ -9,6 +9,33 @@ interface Scheduleitem{
 }
 
 export default class ClassesControllers{
+
+    async index(request:Request, response:Response){
+        const filters = request.query;
+
+        const subject = filters.subject as string;
+        const week_day = filters.subject as string;
+        const time = filters.time as string;
+
+        if(!filters.week_day || !filters.subject || !filters.time){
+            return response.status(400).json({
+                error: 'Missing filters to search classes'
+            })
+        }
+
+        //const timeInMinutos = convertHourToMinuts(filters.time as string);
+        const timeInMinutos = convertHourToMinuts(time);
+       
+        // console.log(timeInMinutos);
+
+        const classes = await db('classes')
+        //.where('classes.subject', '=', filters.subject as string)
+        .where('classes.subject', '=', subject)
+
+        //return response.send();
+        return response.json(classes);
+    }
+    
     async create (request:Request, response:Response){
     
         const {
