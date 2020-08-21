@@ -31,6 +31,8 @@ export default class ClassesControllers{
         const classes = await db('classes')
         //.where('classes.subject', '=', filters.subject as string)
         .where('classes.subject', '=', subject)
+        .join('users', 'classes.user_id', '=', 'users.id')
+        .select(['classes.*', 'users.*']);
 
         //return response.send();
         return response.json(classes);
