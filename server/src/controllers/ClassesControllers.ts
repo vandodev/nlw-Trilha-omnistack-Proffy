@@ -14,7 +14,7 @@ export default class ClassesControllers{
         const filters = request.query;
 
         const subject = filters.subject as string;
-        const week_day = filters.subject as string;
+        const week_day = filters.week_day as string;
         const time = filters.time as string;
 
         if(!filters.week_day || !filters.subject || !filters.time){
@@ -24,11 +24,19 @@ export default class ClassesControllers{
         }
 
         //const timeInMinutos = convertHourToMinuts(filters.time as string);
-        const timeInMinutos = convertHourToMinuts(time);
+        const timeInMinutes = convertHourToMinuts(time);
        
         // console.log(timeInMinutos);
 
         const classes = await db('classes')
+        .whereExists(function(){
+            this.select('class_schedule.*')
+            .from('class_schedule')
+            .whereRaw('`class_schedule`.`class_id` = `classes`.`id`')
+            .whereRaw('`class_schedule`.`week_day` = ??', [Number(week_day)])
+            .whereRaw('`class_schedule`.`from` <= ?',[timeInMinutes])
+            .whereRaw('`class_schedule`.`to` > ?',[timeInMinutes])
+        })
         //.where('classes.subject', '=', filters.subject as string)
         .where('classes.subject', '=', subject)
         .join('users', 'classes.user_id', '=', 'users.id')
@@ -79,14 +87,14 @@ export default class ClassesControllers{
                 };
             })
         
-            await trx('classes_schedule').insert(classSchedule);
+            await trx('class_schedule').insert(classSchedule);
                 trx.commit();   
                 return response.status(2001).send();
     
         }catch(err){
             await trx.rollback();
             return response.status(400).json({
-                error:'Unexpected error while creating nrw class'
+                error:'Unexpected error while creating new class'
             })
         }
     

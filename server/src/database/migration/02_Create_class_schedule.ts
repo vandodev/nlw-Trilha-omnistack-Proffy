@@ -1,7 +1,7 @@
 import Knex from 'knex';
 
 export async function up(Knex: Knex){
-    return Knex.schema.createTable('classes_schedule', (table) => {
+    return Knex.schema.createTable('class_schedule', (table) => {
         table.increments('id').primary();
 
         table.integer('week_day').notNullable();
@@ -19,5 +19,5 @@ export async function up(Knex: Knex){
 }
 
 export async function down(Knex: Knex){
-  return Knex.schema.dropTable('classes_schedule');  
+  return Knex.schema.dropTable('class_schedule');  
 }
