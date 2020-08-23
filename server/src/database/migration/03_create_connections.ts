@@ -10,7 +10,7 @@ export async function up(Knex: Knex){
         .inTable('users')
         .onUpdate('CASCADE')
         .onDelete('CASCADE');
-
+        
         table.timestamp('created_at')
         .defaultTo(Knex.raw('CURRENT_TIMESTAMP'))
         .notNullable();
