@@ -30,7 +30,17 @@ function TeacherForm(){
                     <Input name="WatsApp" label="WatsApp"/>
                 </fieldset>
 
-             
+                <footer>
+                    <p>
+                        <img src={WarningIcom}alt="Aviso importante"/>
+                        importante! <br />
+                        Preencha todos os dados
+                    </p>
+
+                    <button type="button">Salvar cadastro</button>
+
+                </footer>
+
             </main>    
 
         </div>
