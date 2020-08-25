@@ -51,6 +51,39 @@ function TeacherForm(){
                     <Input name="WatsApp" label="WatsApp"/>
                 </fieldset>
 
+                <fieldset>
+                    <legend>
+                        Horários disponíveis
+
+                        <button type="button">
+                            + Novo horário
+                        </button>
+
+                        </legend>
+
+                        <div className="schedule-item">
+
+                        <Select
+                            name="week_day"
+                            label="Dia da semana"
+                            options={[
+                                {value:'0', Label:'Domingo'},
+                                {value:'1', Label:'Segunda-feira'},
+                                {value:'2', Label:'Terça-feira'},
+                                {value:'3', Label:'Quarta-feira'},
+                                {value:'4', Label:'Quinta-feira'},
+                                {value:'5', Label:'Sexta-feira'},
+                                {value:'6', Label:'Sabado'},
+                                     
+                                     ]}
+                        />
+                            <Input name="from" label="Das" type="time"/>
+                            <Input name="To" label="Até" type="time"/>
+
+                        </div>
+
+                </fieldset>
+
                 <footer>
                     <p>
                         <img src={WarningIcom}alt="Aviso importante"/>
