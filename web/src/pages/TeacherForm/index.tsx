@@ -19,7 +19,7 @@ function TeacherForm(){
     const[subject, setSubject] = useState('');
     const[cost, setCost] = useState('');
 
-    const [scheduleItems,setScheduleItens] = useState(
+    const [scheduleItems,setScheduleItems] = useState(
         [
            // {week_day:0, from:'8:00 AM', to:'4:00 PM'},
             {week_day:0,from:'',to:''}
@@ -27,10 +27,24 @@ function TeacherForm(){
     );
     
 function addNewScheduleItem(){
-    setScheduleItens([
+    setScheduleItems([
         ...scheduleItems,
         {week_day:0,from:'',to:''}
     ]);
+}
+
+function setScheduleItenValue(position: number, field: string, value:string){
+
+    const updatedScheduleItems = scheduleItems.map((scheduleItem, index) => {
+        if (index === position){
+            return{...scheduleItem, [field]:value};
+        }
+        return scheduleItem;
+    });
+
+    console.log(updatedScheduleItems);
+    setScheduleItems(updatedScheduleItems);
+
 }
 
 function handleCreateClass(e:FormEvent){
@@ -43,7 +57,8 @@ function handleCreateClass(e:FormEvent){
         whatsapp,
         bio,
         subject, 
-        cost
+        cost,
+        setScheduleItems
 
     })
 }
@@ -129,13 +144,15 @@ function handleCreateClass(e:FormEvent){
 
                             </legend>
 
-                            {scheduleItems.map(scheduleItem =>{
+                            {scheduleItems.map((scheduleItem, index) =>{
                                 return(
                                         <div key={scheduleItem.week_day} className="schedule-item">
 
                                             <Select
                                                 name="week_day"
                                                 label="Dia da semana"
+                                                value={scheduleItem.week_day}
+                                                onChange={e => setScheduleItenValue(index, 'week_day', e.target.value)}
                                                 options={[
                                                     {value:'0', Label:'Domingo'},
                                                     {value:'1', Label:'Segunda-feira'},
@@ -147,8 +164,21 @@ function handleCreateClass(e:FormEvent){
                                                         
                                                 ]}
                                             />
-                                                <Input name="from" label="Das" type="time"/>
-                                                <Input name="To" label="Até" type="time"/>
+                                                <Input
+                                                    name="from" 
+                                                    label="Das" 
+                                                    type="time"
+                                                    value={scheduleItem.from}
+                                                    onChange={e => setScheduleItenValue(index, 'from', e.target.value)}
+                                                 />
+
+                                                <Input
+                                                    name="To" 
+                                                    label="Até" 
+                                                    type="time"
+                                                    value={scheduleItem.to}
+                                                    onChange={e => setScheduleItenValue(index, 'to', e.target.value)}
+                                                 />
 
                                     </div>
                                 );
